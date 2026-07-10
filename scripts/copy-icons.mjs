@@ -5,6 +5,7 @@ import { dirname } from 'node:path';
 
 const icons = [
   ['nodes/CodexSubscription/codex.svg', 'dist/nodes/CodexSubscription/codex.svg'],
+  ['nodes/CodexChatModel/codex.svg', 'dist/nodes/CodexChatModel/codex.svg'],
 ];
 
 for (const [src, dest] of icons) {

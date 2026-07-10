@@ -53,5 +53,10 @@
   "engines": {
     "node": ">=20.15"
   },
-  "packageManager": "pnpm@9.0.0"
+  "packageManager": "pnpm@9.0.0",
+  "pnpm": {
+    "neverBuiltDependencies": [
+      "isolated-vm"
+    ]
+  }
 }

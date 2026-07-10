@@ -7,10 +7,11 @@ settings:
 importers:
 
   .:
-    devDependencies:
+    dependencies:
       '@langchain/core':
         specifier: ^0.3.40
         version: 0.3.80
+    devDependencies:
       '@types/node':
         specifier: ^22.9.0
         version: 22.20.1

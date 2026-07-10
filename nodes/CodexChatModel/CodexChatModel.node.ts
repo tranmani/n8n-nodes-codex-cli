@@ -26,7 +26,7 @@ interface CodexChatModelParams extends BaseChatModelParams {
  * Note: no native (OpenAI-style) tool calling — works with agent types that parse
  * tool use from text (ReAct/Conversational) + Memory, not the strict Tools Agent.
  */
-class CodexChatModel extends SimpleChatModel {
+class CodexCliChatModel extends SimpleChatModel {
 	binary: string;
 	modelName?: string;
 	timeoutMs: number;
@@ -78,7 +78,7 @@ class CodexChatModel extends SimpleChatModel {
 	}
 }
 
-export class CodexChatModelNode implements INodeType {
+export class CodexChatModel implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Codex Chat Model (Subscription)',
 		name: 'codexChatModel',
@@ -146,7 +146,7 @@ export class CodexChatModelNode implements INodeType {
 		const model = modelSel || (creds.defaultModel as string) || undefined;
 		const sandbox = this.getNodeParameter('sandbox', itemIndex, 'read-only') as SandboxMode;
 
-		const chat = new CodexChatModel({
+		const chat = new CodexCliChatModel({
 			binary: (creds.codexBinaryPath as string) || 'codex',
 			model,
 			timeoutMs: (Number(creds.timeoutSeconds) || 120) * 1000,

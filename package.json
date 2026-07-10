@@ -1,0 +1,54 @@
+{
+  "name": "n8n-nodes-codex-cli",
+  "version": "0.1.0",
+  "description": "n8n community node that runs OpenAI Codex through your local, subscription-authenticated Codex CLI (Sign in with ChatGPT) — no API key. Chat + Agentic modes, local exec, no Docker socket.",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "codex",
+    "openai",
+    "chatgpt",
+    "subscription",
+    "ai"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/tranmani/n8n-nodes-codex-cli#readme",
+  "author": "tranmani",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tranmani/n8n-nodes-codex-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tranmani/n8n-nodes-codex-cli/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && node scripts/copy-icons.mjs",
+    "dev": "tsc -w",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/CodexSubscriptionApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/CodexSubscription/CodexSubscription.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "n8n-workflow": "^1.70.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.5"
+  },
+  "engines": {
+    "node": ">=20.15"
+  }
+}

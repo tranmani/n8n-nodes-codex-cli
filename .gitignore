@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+coverage/
+# never commit local Codex/ChatGPT auth or secrets
+.codex/
+*.pem
+*.key
+.env
+# npm pack artifacts
+*.tgz

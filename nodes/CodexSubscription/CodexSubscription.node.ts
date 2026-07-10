@@ -56,6 +56,15 @@ export class CodexSubscription implements INodeType {
 				description: 'The message / task sent to Codex',
 			},
 			{
+				displayName: 'System Prompt',
+				name: 'systemPrompt',
+				type: 'string',
+				typeOptions: { rows: 3 },
+				default: '',
+				description:
+					'Instructions prepended to the prompt — tells Codex how to process the input / previous data (e.g. "Summarize as Markdown; output only the summary")',
+			},
+			{
 				displayName: 'Model',
 				name: 'model',
 				type: 'options',
@@ -160,7 +169,9 @@ export class CodexSubscription implements INodeType {
 				const timeoutOverride = Number(this.getNodeParameter('timeout', i, 0));
 				const timeoutSec = timeoutOverride > 0 ? timeoutOverride : credTimeout;
 
-				const base: BuildArgsInput = { operation, prompt, model, json: true };
+				const systemPrompt =
+					(this.getNodeParameter('systemPrompt', i, '') as string) || undefined;
+				const base: BuildArgsInput = { operation, prompt, systemPrompt, model, json: true };
 
 				let responseFormat: 'text' | 'json' = 'text';
 				let cwd: string | undefined;

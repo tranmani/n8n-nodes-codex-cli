@@ -51,6 +51,24 @@ describe('buildArgs', () => {
 		expect(args.filter((a) => a === evil)).toHaveLength(1);
 	});
 
+	it('prepends the system prompt to the prompt', () => {
+		const args = buildArgs(
+			{ operation: 'chat', prompt: 'do the thing', systemPrompt: 'be terse' },
+			OUT,
+		);
+		expect(args[args.length - 1]).toBe('be terse\n\ndo the thing');
+	});
+
+	it('system prompt then prompt then JSON nudge for chat+json', () => {
+		const args = buildArgs(
+			{ operation: 'chat', prompt: 'p', systemPrompt: 's', responseFormat: 'json' },
+			OUT,
+		);
+		const last = args[args.length - 1];
+		expect(last.indexOf('s')).toBeLessThan(last.indexOf('p'));
+		expect(last).toMatch(/single valid JSON/i);
+	});
+
 	it('throws on an empty prompt', () => {
 		expect(() => buildArgs({ operation: 'chat', prompt: '   ' }, OUT)).toThrow(/prompt is required/);
 	});

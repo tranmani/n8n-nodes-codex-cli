@@ -23,6 +23,8 @@ export type SandboxMode = 'read-only' | 'workspace-write' | 'danger-full-access'
 export interface BuildArgsInput {
 	operation: Operation;
 	prompt: string;
+	/** instructions prepended to the prompt (how to process the input) */
+	systemPrompt?: string;
 	model?: string;
 	/** chat only: nudge the model to emit JSON (parsing happens in parse.ts) */
 	responseFormat?: ResponseFormat;
@@ -46,6 +48,7 @@ export function buildArgs(input: BuildArgsInput, outputFile: string): string[] {
 	const {
 		operation,
 		prompt,
+		systemPrompt,
 		model,
 		responseFormat = 'text',
 		sandbox,
@@ -75,9 +78,13 @@ export function buildArgs(input: BuildArgsInput, outputFile: string): string[] {
 		args.push('--cd', workingDirectory);
 	}
 
-	// The prompt: text-mode chat gets an optional JSON nudge appended.
-	const finalPrompt =
-		operation === 'chat' && responseFormat === 'json' ? `${prompt}\n\n${JSON_NUDGE}` : prompt;
+	// Codex exec takes a single prompt, so a system prompt is prepended as leading
+	// instructions, then the JSON nudge (chat+json) is appended.
+	const parts: string[] = [];
+	if (systemPrompt && systemPrompt.trim()) parts.push(systemPrompt.trim());
+	parts.push(prompt);
+	if (operation === 'chat' && responseFormat === 'json') parts.push(JSON_NUDGE);
+	const finalPrompt = parts.join('\n\n');
 
 	return [...args, ...extraArgs, finalPrompt];
 }

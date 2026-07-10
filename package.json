@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-codex-cli",
-  "version": "0.1.0",
-  "description": "n8n community node that runs OpenAI Codex through your local, subscription-authenticated Codex CLI (Sign in with ChatGPT) — no API key. Chat + Agentic modes, local exec, no Docker socket.",
+  "version": "0.1.1",
+  "description": "n8n community node that runs OpenAI Codex through your local, subscription-authenticated Codex CLI (Sign in with ChatGPT) \u2014 no API key. Chat + Agentic modes, local exec, no Docker socket.",
   "keywords": [
     "n8n-community-node-package",
     "n8n",

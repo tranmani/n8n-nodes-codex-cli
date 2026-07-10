@@ -58,11 +58,28 @@ export class CodexSubscription implements INodeType {
 			{
 				displayName: 'Model',
 				name: 'model',
+				type: 'options',
+				options: [
+					{ name: 'Default (CLI / credential)', value: '' },
+					{ name: 'gpt-5-codex', value: 'gpt-5-codex' },
+					{ name: 'gpt-5', value: 'gpt-5' },
+					{ name: 'gpt-5-mini', value: 'gpt-5-mini' },
+					{ name: 'o4-mini', value: 'o4-mini' },
+					{ name: 'o3', value: 'o3' },
+					{ name: 'Custom (type below)…', value: '__custom' },
+				],
+				default: '',
+				description:
+					'Model to use. Pick a preset or choose Custom to type any model slug. Blank uses the credential/CLI default.',
+			},
+			{
+				displayName: 'Custom Model',
+				name: 'customModel',
 				type: 'string',
 				default: '',
-				placeholder: 'gpt-5-codex',
-				description:
-					'Model to use. Leave blank to use the credential default or the CLI default.',
+				placeholder: 'e.g. gpt-5.1-codex',
+				description: 'Exact model slug passed to `codex --model`',
+				displayOptions: { show: { model: ['__custom'] } },
 			},
 			// ---- Chat-only ----
 			{
@@ -135,8 +152,11 @@ export class CodexSubscription implements INodeType {
 			try {
 				const operation = this.getNodeParameter('operation', i) as 'chat' | 'agentic';
 				const prompt = this.getNodeParameter('prompt', i) as string;
-				const model =
-					((this.getNodeParameter('model', i, '') as string) || defaultModel) || undefined;
+				let modelSel = this.getNodeParameter('model', i, '') as string;
+				if (modelSel === '__custom') {
+					modelSel = (this.getNodeParameter('customModel', i, '') as string) || '';
+				}
+				const model = (modelSel || defaultModel) || undefined;
 				const timeoutOverride = Number(this.getNodeParameter('timeout', i, 0));
 				const timeoutSec = timeoutOverride > 0 ? timeoutOverride : credTimeout;
 

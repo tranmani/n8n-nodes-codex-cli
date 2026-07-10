@@ -10,3 +10,6 @@ coverage/
 .env
 # npm pack artifacts
 *.tgz
+
+# using pnpm
+package-lock.json
